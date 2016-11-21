@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Move : MonoBehaviour
+public class Move : NetworkBehaviour
 {
     // Movement keys (customizable in Inspector)
     public KeyCode upKey;
@@ -32,6 +33,12 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+        if (!isLocalPlayer)
+        {
+            return;
+        }
         // Check for key presses
         if (Input.GetKeyDown(upKey))
         {
