@@ -22,11 +22,14 @@ public class Move : NetworkBehaviour
     //Last wall's end
     Vector2 lastWallEnd;
 
+    string wallValue;
+
     // Use this for initialization
     void Start()
     {
-        
+
         // Initial Velocity
+        wallValue = wallPrefab.tag.ToString();
         GetComponent<Rigidbody2D>().velocity = Vector2.up * speed;
         spawnWall();
     }
@@ -98,10 +101,14 @@ public class Move : NetworkBehaviour
     void OnTriggerEnter2D(Collider2D co)
     {
         // Not the current wall?
-        if (co != wall)
+        if (co != wall )
+
         {
-            print("fatalatiy");
-            //Destroy(gameObject);
+            if (isLocalPlayer)
+            {
+                print("dead");
+                Destroy(gameObject);
+            }
         }
     }
 }
