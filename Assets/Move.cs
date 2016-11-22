@@ -25,6 +25,7 @@ public class Move : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
+        
         // Initial Velocity
         GetComponent<Rigidbody2D>().velocity = Vector2.up * speed;
         spawnWall();
@@ -37,6 +38,7 @@ public class Move : NetworkBehaviour
 
         if (!isLocalPlayer)
         {
+            spawnWall();
             return;
         }
         // Check for key presses
@@ -63,6 +65,12 @@ public class Move : NetworkBehaviour
 
         fitColliderBetween(wall, lastWallEnd, transform.position);
 
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+        wallPrefab.GetComponent<SpriteRenderer>().color = Color.magenta;
+        if (!isLocalPlayer) { wallPrefab.GetComponent<SpriteRenderer>().color = Color.yellow; }
     }
 
 
@@ -92,8 +100,8 @@ public class Move : NetworkBehaviour
         // Not the current wall?
         if (co != wall)
         {
-            print("Player lost:" + name);
-            Destroy(gameObject);
+            print("fatalatiy");
+            //Destroy(gameObject);
         }
     }
 }
