@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class Move : NetworkBehaviour
 {
@@ -108,7 +109,9 @@ public class Move : NetworkBehaviour
             {
                 print("dead");
                 Destroy(gameObject);
+                SceneManager.LoadScene("Lost");
             }
+                     
         }
     }
 }
