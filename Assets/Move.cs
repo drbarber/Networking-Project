@@ -39,13 +39,13 @@ public class Move : NetworkBehaviour
     void Update()
     {
 
-
+        //blocks players from moving both bikes at the same time
         if (!isLocalPlayer)
         {
             spawnWall();
             return;
         }
-        // Check for key presses
+        // Check for key presses, changes direction vector and starts a new wall
         if (Input.GetKeyDown(upKey))
         {
             GetComponent<Rigidbody2D>().velocity = Vector2.up * speed;
@@ -74,10 +74,10 @@ public class Move : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         wallPrefab.GetComponent<SpriteRenderer>().color = Color.magenta;
-        if (!isLocalPlayer) { wallPrefab.GetComponent<SpriteRenderer>().color = Color.yellow; }
+        if (isLocalPlayer) { wallPrefab.GetComponent<SpriteRenderer>().color = Color.yellow; }
     }
 
-
+    //create a new wall and scale it from its start position and where the player is, until a new direction is chosen.
     void spawnWall()
     {
         // Last wall's position
@@ -87,6 +87,7 @@ public class Move : NetworkBehaviour
         wall = g.GetComponent<Collider2D>();
     }
 
+    // this function smooths out the wall when direction is changed, without it the wall starts to look janky
     void fitColliderBetween(Collider2D co, Vector2 a, Vector2 b)
     {
         // Calculate the Center Position
@@ -105,11 +106,12 @@ public class Move : NetworkBehaviour
         if (co != wall )
 
         {
+            //was it you that crashed? or the other player?
             if (isLocalPlayer)
             {
                 print("dead");
-                Destroy(gameObject);
-                SceneManager.LoadScene("Lost");
+                Destroy(gameObject); // Destroy your pixel
+                SceneManager.LoadScene("Lost"); // display your shame
             }
                      
         }
